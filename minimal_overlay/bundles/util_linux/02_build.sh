@@ -48,8 +48,8 @@ echo "Reducing '$BUNDLE_NAME' size."
 reduce_size $DEST_DIR/bin
 
 install_to_overlay bin
+install_to_overlay lib
 
 echo "Bundle '$BUNDLE_NAME' has been installed."
 
 cd $SRC_DIR
-

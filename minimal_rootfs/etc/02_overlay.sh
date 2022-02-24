@@ -8,21 +8,19 @@
 #  |
 #  +--(2) /etc/02_overlay.sh (this file)
 #          |
-#          +-- /etc/03_init.sh
+#          +-- /sbin/init
 #               |
-#               +-- /sbin/init
-#                    |
-#                    +--(1) /etc/04_bootscript.sh
-#                    |       |
-#                    |       +-- /etc/autorun/* (all scripts)
-#                    |
-#                    +--(2) /bin/sh (Alt + F1, main console)
-#                    |
-#                    +--(2) /bin/sh (Alt + F2)
-#                    |
-#                    +--(2) /bin/sh (Alt + F3)
-#                    |
-#                    +--(2) /bin/sh (Alt + F4)
+#               +--(1) /etc/04_bootscript.sh
+#               |       |
+#               |       +-- /etc/autorun/* (all scripts)
+#               |
+#               +--(2) /bin/sh (Alt + F1, main console)
+#               |
+#               +--(2) /bin/sh (Alt + F2)
+#               |
+#               +--(2) /bin/sh (Alt + F3)
+#               |
+#               +--(2) /bin/sh (Alt + F4)
 
 # Create the new mountpoint in RAM.
 mount -t tmpfs none /mnt
@@ -187,7 +185,7 @@ echo -e "Mount locations \\e[94m/dev\\e[0m, \\e[94m/sys\\e[0m, \\e[94m/tmp\\e[0m
 # deleted automatically as part of the command execution. The '/sbin/init'
 # process is invoked and it becomes the new PID 1 parent process.
 echo "Switching from initramfs root area to overlayfs root area."
-exec switch_root /mnt /etc/03_init.sh
+exec switch_root /mnt /sbin/init
 
 echo "(/etc/02_overlay.sh) - there is a serious bug."
 

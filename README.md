@@ -1,6 +1,8 @@
 zerofree LiveCD
 ===============
 
+![](screenshot.png)
+
 What is it ?
 ------------
 
@@ -8,7 +10,7 @@ This is a small bootable CD to run the zerofree command on all
 ext2/ext4 partitions on a machine. This is particularly useful for
 reducing the export size of a VM.
 
-It is based on (Minimal Linux Live)[https://github.com/ivandavidov/minimal].
+It is based on [Minimal Linux Live](https://github.com/ivandavidov/minimal).
 
 
 How to use ?

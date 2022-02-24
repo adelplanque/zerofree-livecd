@@ -1,15 +1,17 @@
 #!/bin/sh
 
-echo -e "\033[1mStart scanning ext2/4 block device\033[0m"
+echo ""
+echo -e "\\e[1mStart scanning ext2/4 block device\\e[0m"
 
 lsblk -o PATH,FSTYPE | while read path fstype
 do
     if [ "$fstype" == "ext2" ] || [ "$fstype" == "ext4" ]
     then
-        echo "Start zerofree on $path ($fstype) this can take a while ..."
-        time zerofree $path
+        echo -e "Start zerofree on \\e[1;34m$path\\e[0m ($fstype) this can take a while ..."
+        zerofree -v $path
     fi
 done
 
-echo -e "\033[1mAll block device where freed. Now poweroff ...\033[0m"
+echo ""
+echo -e "\\e[1mAll ext2/4 filesystem where shrinked. Now poweroff ...\\e[0m"
 poweroff

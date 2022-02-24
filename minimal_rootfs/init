@@ -8,23 +8,21 @@
 #  |
 #  +--(2) /etc/02_overlay.sh
 #          |
-#          +-- /etc/03_init.sh
+#          +-- /sbin/init
 #               |
-#               +-- /sbin/init
-#                    |
-#                    +--(1) /etc/04_bootscript.sh
-#                    |       |
-#                    |       +-- /etc/autorun/* (all scripts)
-#                    |
-#                    +--(2) /bin/sh (Alt + F1, main console)
-#                    |
-#                    +--(2) /bin/sh (Alt + F2)
-#                    |
-#                    +--(2) /bin/sh (Alt + F3)
-#                    |
-#                    +--(2) /bin/sh (Alt + F4)
+#               +--(1) /etc/04_bootscript.sh
+#               |       |
+#               |       +-- /etc/autorun/* (all scripts)
+#               |
+#               +--(2) /bin/sh (Alt + F1, main console)
+#               |
+#               +--(2) /bin/sh (Alt + F2)
+#               |
+#               +--(2) /bin/sh (Alt + F3)
+#               |
+#               +--(2) /bin/sh (Alt + F4)
 
-echo -e "Welcome to \\e[1mMinimal \\e[32mLinux \\e[31mLive\\e[0m (/init)"
+echo -e "Welcome to \\e[1;36mZero\\e[32mFree \\e[33mLive\\e[31mCD\\e[0m"
 
 # Let's mount all core file systems.
 /etc/01_prepare.sh

@@ -13,17 +13,19 @@ rm -rf $DEST_DIR
 echo "Build e2fsprogs."
 E2FSPROGS_SOURCES=$(ls -d $OVERLAY_WORK_DIR/$BUNDLE_NAME/e2fsprogs-*)
 cd $E2FSPROGS_SOURCES
-./configure CPPFLAGS="--sysroot=$SYSROOT" \
-            --enable-libuuid \
-            --enable-libblkid \
-            --disable-rpath \
-            --disable-fuse2fs
+./configure                                                    \
+    CPPFLAGS="--sysroot=$SYSROOT"                              \
+    CFLAGS="$CFLAGS -ffunction-sections -fdata-sections -flto" \
+    --enable-libuuid                                           \
+    --enable-libblkid                                          \
+    --disable-rpath                                            \
+    --disable-fuse2fs
 make -j $NUM_JOBS
 
 echo "Build zerofree"
 ZEROFREE_SOURCES=$(ls -d $OVERLAY_WORK_DIR/$BUNDLE_NAME/zerofree-*)
 cd $ZEROFREE_SOURCES
-gcc $CFLAGS -pthread -I$E2FSPROGS_SOURCES/lib --sysroot=$SYSROOT \
+gcc $CFLAGS -pthread -Wl,--gc-sections -flto -I$E2FSPROGS_SOURCES/lib --sysroot=$SYSROOT \
     -o zerofree zerofree.c $E2FSPROGS_SOURCES/lib/libext2fs.a $E2FSPROGS_SOURCES/lib/libcom_err.a
 mkdir -p $DEST_DIR/bin
 install -m 755 zerofree $DEST_DIR/bin/zerofree

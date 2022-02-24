@@ -21,34 +21,38 @@ mkdir -p $DEST_DIR/usr/share/doc/util-linux
 mkdir -p $DEST_DIR/bin
 
 echo "Configuring '$BUNDLE_NAME'."
-CFLAGS="$CFLAGS" ./configure \
-  ADJTIME_PATH=/var/lib/hwclock/adjtime   \
-  --prefix=$DEST_DIR \
-  --docdir=$DEST_DIR/usr/share/doc/util-linux \
-  --disable-chfn-chsh  \
-  --disable-login      \
-  --disable-nologin    \
-  --disable-su         \
-  --disable-setpriv    \
-  --disable-runuser    \
-  --disable-pylibmount \
-  --disable-static     \
-  --disable-makeinstall-chown \
-  --without-python     \
-  --without-systemd    \
-  --without-systemdsystemunitdir
+./configure                                                    \
+    CPPFLAGS="--sysroot=$SYSROOT"                              \
+    CFLAGS="$CFLAGS -ffunction-sections -fdata-sections -flto" \
+    LDFLAGS="${LDFLAGS} -Wl,--gc-sections -flto"               \
+    ADJTIME_PATH=/var/lib/hwclock/adjtime                      \
+    --prefix=$DEST_DIR                                         \
+    --docdir=$DEST_DIR/usr/share/doc/util-linux                \
+    --disable-chfn-chsh                                        \
+    --disable-login                                            \
+    --disable-makeinstall-chown                                \
+    --disable-nologin                                          \
+    --disable-pylibmount                                       \
+    --disable-runuser                                          \
+    --disable-setpriv                                          \
+    --disable-shared                                           \
+    --disable-su                                               \
+    --enable-static                                            \
+    --without-python                                           \
+    --without-systemd                                          \
+    --without-systemdsystemunitdir
 
 echo "Building '$BUNDLE_NAME'."
-make -j $NUM_JOBS
+make -j $NUM_JOBS lsblk
 
 echo "Installing '$BUNDLE_NAME'."
-make -j $NUM_JOBS install
+mkdir -p $DEST_DIR/bin
+install -m 775 lsblk $DEST_DIR/bin
 
 echo "Reducing '$BUNDLE_NAME' size."
 reduce_size $DEST_DIR/bin
 
-install_to_overlay bin
-install_to_overlay lib
+install_to_overlay
 
 echo "Bundle '$BUNDLE_NAME' has been installed."
 

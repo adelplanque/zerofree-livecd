@@ -1,0 +1,5 @@
+*~
+*.iso
+*.tgz
+/source
+/work

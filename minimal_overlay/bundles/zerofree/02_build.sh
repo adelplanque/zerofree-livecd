@@ -20,7 +20,7 @@ cd $E2FSPROGS_SOURCES
     --enable-libblkid                                          \
     --disable-rpath                                            \
     --disable-fuse2fs
-make -j $NUM_JOBS
+make -j $NUM_JOBS libs
 
 echo "Build zerofree"
 ZEROFREE_SOURCES=$(ls -d $OVERLAY_WORK_DIR/$BUNDLE_NAME/zerofree-*)

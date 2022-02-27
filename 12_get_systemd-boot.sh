@@ -8,15 +8,16 @@ set -e
 download() {
   # Read the 'SYSTEMD-BOOT_SOURCE_URL' property from '.config'.
   DOWNLOAD_URL=`read_property SYSTEMD-BOOT_SOURCE_URL`
+  SHA256SUM=`read_property SYSTEMD-BOOT_SHA256SUM`
 
   # Grab everything after the last '/' character.
   ARCHIVE_FILE=${DOWNLOAD_URL##*/}
 
   # Download systemd-boot source archive in the 'source' directory.
-  download_source $DOWNLOAD_URL $SOURCE_DIR/$ARCHIVE_FILE
+  download_source $DOWNLOAD_URL $SOURCE_DIR/$ARCHIVE_FILE $SHA256SUM
 
   # Extract the 'systemd-boot' sources in the 'work/systemd-boot' directory.
-  extract_source $SOURCE_DIR/$ARCHIVE_FILE systemd-boot  
+  extract_source $SOURCE_DIR/$ARCHIVE_FILE systemd-boot
 }
 
 echo "*** GET SYSTEMD-BOOT BEGIN ***"

@@ -9,12 +9,13 @@ echo "*** GET KERNEL BEGIN ***"
 
 # Read the 'KERNEL_SOURCE_URL' property from '.config'.
 DOWNLOAD_URL=`read_property KERNEL_SOURCE_URL`
+SHA256SUM=`read_property KERNEL_SHA256SUM`
 
 # Grab everything after the last '/' character.
 ARCHIVE_FILE=${DOWNLOAD_URL##*/}
 
 # Download kernel source archive in the 'source' directory.
-download_source $DOWNLOAD_URL $SOURCE_DIR/$ARCHIVE_FILE
+download_source $DOWNLOAD_URL $SOURCE_DIR/$ARCHIVE_FILE $SHA256SUM
 
 # Extract the kernel sources in the 'work/kernel' directory.
 extract_source $SOURCE_DIR/$ARCHIVE_FILE kernel

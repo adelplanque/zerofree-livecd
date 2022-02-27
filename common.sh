@@ -49,20 +49,18 @@ NUM_JOBS=$((NUM_CORES * JOB_FACTOR))
 download_source() (
   url=$1  # Download from this URL.
   file=$2 # Save the resource in this file.
+  sha256sum=$3
+  filename=$(basename $file)
 
-  local=`read_property USE_LOCAL_SOURCE`
-
-  if [ "$local" = "true" -a ! -f $file  ] ; then
-    echo "Source file '$file' is missing and will be downloaded."
-    local=false
-  fi
-
-  if [ ! "$local" = "true" ] ; then
-    echo "Downloading source file from '$url'."
-    echo "Saving source file in '$file'".
-    wget -O $file -c $url
-  else
-    echo "Using local source file '$file'."
+  if ! echo "$sha256sum $(basename $file)" | env -C $(dirname $file) sha256sum -c -
+  then
+      echo "Downloading $(basename $file) sources from $url"
+      wget -O $file $url
+      if ! echo "$sha256sum $(basename $file)" | env -C $(dirname $file) sha256sum -c -
+      then
+          echo "Bad checksum for $file"
+          exit 1
+    fi
   fi
 )
 

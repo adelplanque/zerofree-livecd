@@ -36,25 +36,22 @@ if [ "$OVERLAY_LOCATION" = "iso" ] && \
 
   echo "Using sparse file for overlay."
 
-  # This is the Busybox executable that we have already generated.
-  BUSYBOX=$ROOTFS/bin/busybox
-
   # Create sparse image file with 3MB size. Note that this increases the ISO
   # image size.
-  $BUSYBOX truncate -s 3M $ISOIMAGE_OVERLAY/minimal.img
+  truncate -s 3M $ISOIMAGE_OVERLAY/minimal.img
 
   # Find available loop device.
-  LOOP_DEVICE=$($BUSYBOX losetup -f)
+  LOOP_DEVICE=$(losetup -f)
 
   # Associate the available loop device with the sparse image file.
-  $BUSYBOX losetup $LOOP_DEVICE $ISOIMAGE_OVERLAY/minimal.img
+  losetup $LOOP_DEVICE $ISOIMAGE_OVERLAY/minimal.img
 
   # Format the sparse image file with Ext2 file system.
-  $BUSYBOX mkfs.ext2 $LOOP_DEVICE
+  mkfs.ext2 $LOOP_DEVICE
 
   # Mount the sparse file in folder 'sparse".
   mkdir $ISOIMAGE_OVERLAY/sparse
-  $BUSYBOX mount $ISOIMAGE_OVERLAY/minimal.img sparse
+  mount $ISOIMAGE_OVERLAY/minimal.img sparse
 
   # Create the overlay folders.
   mkdir -p $ISOIMAGE_OVERLAY/sparse/rootfs
@@ -74,13 +71,13 @@ if [ "$OVERLAY_LOCATION" = "iso" ] && \
 
   # Unmount the sparse file and delete the temporary folder.
   sync
-  $BUSYBOX umount $ISOIMAGE_OVERLAY/sparse
+  umount $ISOIMAGE_OVERLAY/sparse
   sync
   sleep 1
   rm -rf $ISOIMAGE_OVERLAY/sparse
 
   # Detach the loop device since we no longer need it.
-  $BUSYBOX losetup -d $LOOP_DEVICE
+  losetup -d $LOOP_DEVICE
 elif [ "$OVERLAY_LOCATION" = "iso" ] && \
      [ "$OVERLAY_TYPE" = "folder" ] && \
      [ -d $OVERLAY_ROOTFS ] && \

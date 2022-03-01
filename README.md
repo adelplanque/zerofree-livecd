@@ -25,3 +25,15 @@ VBoxManage modifyvm <vm_name> --boot1 dvd --boot2 disk --boot3 none --boot4 none
 # Start VM and wait for shutdown (this can take a while)
 VBoxManage startvm <vm_name> --type headless
 ```
+
+
+License
+-------
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or (at
+your option) any later version.
+
+It is a derivative work of [Minimal Linux Live](https://github.com/ivandavidov/minimal)
+which is licensed under the GNU General Public License.
